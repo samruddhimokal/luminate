@@ -254,7 +254,7 @@ const UserProfile = () => {
   const renderAudios = () =>
     audioData
       ? renderSection(
-          "Audios",
+          "Audio Summary",
           audioData.map((item) => (
             <p className="text-gray-300 space-y-1" key={item._id}>
               {item.audio}
@@ -262,7 +262,7 @@ const UserProfile = () => {
           ))
         )
       : renderSection(
-          "Audios",
+          "Audio Summary",
           audioData.map((item) => (
             <p className="text-gray-300 space-y-1" key={item._id}>
               {profileData.audios.audio}
