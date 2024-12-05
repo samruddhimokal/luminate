@@ -10,7 +10,7 @@ const UserProfile = () => {
   const { email, token } = authData;
   const [profileData, setProfileData] = useState(null);
   const [journalData, setJournalData] = useState(null);
-  const [journeyData, setJourneyData] = useState(null);
+  const [journeyData, setJourneyData] = useState({});
   const [muscleData, setMuscleData] = useState(null);
   const [postData, setPostData] = useState(null);
   const [audioData, setAudioData] = useState(null);
@@ -24,8 +24,6 @@ const UserProfile = () => {
   }, []);
 
 
-  // console.log(profileData.journeysAll.levels)
-  // console.log( typeof profileData.journeysAll)
   useEffect(() => {
     if (selectedDate) {
       const filteredData1 = profileData.journalAllData.filter(
@@ -33,8 +31,10 @@ const UserProfile = () => {
       );
       setJournalData(filteredData1);
        
-            //  console.log(profileData.journeysAll)
-      const filteredData2 = profileData.journeysAll.filter((item) => {
+            //  console.log(profileta.journeysAll)
+
+            
+      const filteredData2 = profileData.journeysAll.find((item) => {
         // Extract the date part from createdAt
         const createdAtDate = new Date(item.date)
           .toISOString()
@@ -42,7 +42,14 @@ const UserProfile = () => {
         // Compare it with the selected date
         return createdAtDate === selectedDate;
       });
+
+    //  console.log(filteredData2["levels"])
+     
       setJourneyData(filteredData2);
+
+  console.log(filteredData2.date)
+     
+    
 
       const filteredData3 = profileData.muscleSelectionsAll.filter((item) => {
         // Extract the date part from createdAt
@@ -89,7 +96,7 @@ const UserProfile = () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email,selectedDate }),
       });
       const data = await response.json();
       if (response.ok) {
@@ -130,6 +137,8 @@ const UserProfile = () => {
       ))}
     </select>
   );
+
+
 
   const renderUserInfoCard = () => {
     if (!profileData?.user) return null;
@@ -196,12 +205,40 @@ const UserProfile = () => {
 
 
       
-  const renderJourneys = () =>
-    profileData.journeys
-      ? 
-      renderSection(
-        "Journeys",
-        profileData.journeys?.levels?.map((level, idx) => (
+   
+ 
+
+  const renderSection1 = (title, content) => (
+    <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-8">
+      <h2 className="text-2xl font-bold text-purple-400 mb-4">{title}</h2>
+      {content?.length > 0 ? (
+        content.map((item, index) => (
+          <div key={index} className="mb-4">
+            {item}
+          </div>
+        ))
+      ) : (
+        <p className="text-gray-400">
+          {title === "Journeys"
+            ? "No journeys available at the moment."
+            : "No data available"}
+        </p>
+      )}
+    </div>
+  );
+  
+
+  // console.log("journeyData.levels:", journeyData?.levels);
+  // console.log(typeof journeyData?.levels)
+  // console.log("journeyData.levels.length:", journalData?.levels?.length);
+  
+
+  const renderJourneys = () => {
+  
+    if (journeyData?.levels?.length > 0) {
+      return renderSection(
+        "Journeys 1",
+        journeyData.levels.map((level, idx) => (
           <div key={idx} className="text-gray-300 space-y-2">
             <h3 className="text-purple-300 font-semibold">{level.title}</h3>
             {level?.questionAnswers?.map((qa, i) => (
@@ -212,10 +249,37 @@ const UserProfile = () => {
             ))}
           </div>
         ))
-     
-      )
-      :  null;
+      );
+    }
   
+   else if (profileData?.journeys?.levels?.length > 0) {
+      return renderSection(
+        "Journeys",
+        profileData.journeys.levels.map((level, idx) => (
+          <div key={idx} className="text-gray-300 space-y-2">
+            <h3 className="text-purple-300 font-semibold">{level.title}</h3>
+            {level?.questionAnswers?.map((qa, i) => (
+              <p key={i} className="space-y-1">
+                <strong>Q:</strong> {qa.question} <br />
+                <strong>A:</strong> {qa.answer}
+              </p>
+            ))}
+          </div>
+        ))
+      );
+    }
+    else{
+      return renderSection("Journeys", []);
+    }
+  
+    // Pass an empty array if no data is available
+  };
+  
+  
+  
+
+  console.log(typeof audioData)
+
 
   const renderMuscleSelections = () =>
     muscleData

@@ -433,7 +433,6 @@ const JourneyRoadmap = () => {
         title: answer.title,
         questionAnswers: answer.questionAnswers,
       }));
-
       const { email, token } = authData;
       if (!email || !token) {
         alert("Authentication error. Please log in again.");
@@ -445,7 +444,9 @@ const JourneyRoadmap = () => {
         date:authData.experienceDate,
         levels: levelsArray,
       };
-      console.log(payload)
+
+     
+
 
       const response = await fetch(`${API_URL}/api/story-answers`, {
         method: 'POST',

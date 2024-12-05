@@ -79,7 +79,7 @@ const handleSaveJournal = async () => {
   
       if (response.ok) {
         console.log("Audio entry saved successfully:", data);
-        navigate("/resource"); // Navigate after successful save
+        navigate("/postExperience"); // Navigate after successful save
       } else {
         alert(data?.message || "An error occurred. Please try again.");
       }
