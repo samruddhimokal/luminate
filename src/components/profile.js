@@ -36,7 +36,7 @@ const UserProfile = () => {
             //  console.log(profileData.journeysAll)
       const filteredData2 = profileData.journeysAll.filter((item) => {
         // Extract the date part from createdAt
-        const createdAtDate = new Date(item.createdAt)
+        const createdAtDate = new Date(item.date)
           .toISOString()
           .split("T")[0];
         // Compare it with the selected date
@@ -46,7 +46,7 @@ const UserProfile = () => {
 
       const filteredData3 = profileData.muscleSelectionsAll.filter((item) => {
         // Extract the date part from createdAt
-        const createdAtDate = new Date(item.createdAt)
+        const createdAtDate = new Date(item.date)
           .toISOString()
           .split("T")[0];
         // Compare it with the selected date
@@ -56,7 +56,7 @@ const UserProfile = () => {
 
       const filteredData4 = profileData.postExperiencesAll.filter((item) => {
         // Extract the date part from createdAt
-        const createdAtDate = new Date(item.createdAt)
+        const createdAtDate = new Date(item.date)
           .toISOString()
           .split("T")[0];
         // Compare it with the selected date
@@ -66,7 +66,7 @@ const UserProfile = () => {
       setPostData(filteredData4);
       const filteredData5 = profileData.audiosAll.filter((item) => {
         // Extract the date part from createdAt
-        const createdAtDate = new Date(item.createdAt)
+        const createdAtDate = new Date(item.date)
           .toISOString()
           .split("T")[0];
         // Compare it with the selected date

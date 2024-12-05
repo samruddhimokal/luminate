@@ -70,6 +70,7 @@ const handleSaveJournal = async () => {
           Authorization: `Bearer ${authData.token}`, // Include the token in the Authorization header
         },
         body: JSON.stringify({
+          date:authData.experienceDate,
           postExperience: journalEntry.postExperience,  // Send postExperience directly
         }),
       });

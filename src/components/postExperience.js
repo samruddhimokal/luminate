@@ -7,7 +7,7 @@ import { useAuth } from './UserContext';  // assuming UserContext provides authe
 const PostExperience = () => {
   const API_URL = process.env.REACT_APP_BASE_URL;
   const navigate = useNavigate();
-  const { authData } = useAuth();  // Assuming authData contains email and token for API requests
+  const { authData} = useAuth();  // Assuming authData contains email and token for API requests
   const [currentState, setCurrentState] = useState("");
   const [postExperience, setPostExperience] = useState("");
   
@@ -66,7 +66,8 @@ const PostExperience = () => {
           Authorization: `Bearer ${authData.token}`, // Include the token in the Authorization header
         },
         body: JSON.stringify({
-          email: authData.email,  // Pass user's email
+          email: authData.email,
+          date:authData.experienceDate, // Pass user's email
           journalEntry,  // Pass the currentState and postExperience
         }),
       });

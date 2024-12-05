@@ -157,7 +157,9 @@ const MuscleSelector = () => {
       // Prepare the payload with selected muscles and email
       const payload = {
         selectedMuscles: musclesArray,
-        email: email,  // Include email in the payload (if needed)
+        email: email,
+        date:authData.experienceDate,
+          // Include email in the payload (if needed)
       };
       // console.log(payload)
   

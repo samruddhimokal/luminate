@@ -534,6 +534,7 @@ const OnboardingScreen = () => {
   
     const payload = {
       email: email,
+
       responses: formattedResponses,
     };
   
@@ -544,7 +545,9 @@ const OnboardingScreen = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(
+          payload
+        ),
       });
   
       const data = await response.json();

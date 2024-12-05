@@ -328,7 +328,7 @@ const JournalScreen = () => {
   const [recordingField, setRecordingField] = useState("");
   const [experienceDate, setExperienceDate] = useState(null);
   const navigate = useNavigate();
-  const { authData } = useAuth();
+  const { authData,setDate  } = useAuth();
 
   const { transcript, resetTranscript, listening } = useSpeechRecognition();
 
@@ -378,6 +378,7 @@ const JournalScreen = () => {
     const adjustedDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     console.log("Selected Date in UTC: ", adjustedDate);  // Check what gets printed
     setExperienceDate(adjustedDate);
+    setDate(adjustedDate);
   };
 
   const handleSaveJournal = async () => {
@@ -421,7 +422,12 @@ const JournalScreen = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`, // Include the authentication token
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(
+          
+  
+            payload
+          
+        ),
       });
   
       const data = await response.json();

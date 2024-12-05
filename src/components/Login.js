@@ -1,11 +1,14 @@
+
+
+
 import React, { useState } from "react";
-import { useAuth } from "./UserContext.js"; // Adjust the path
+import { useAuth } from "./UserContext"; // Adjust the path
 import OnboardingScreen from "./OnboardingScreen";
 import JournalScreen from "./journal-screen-updated";
 
 const AuthForms = () => {
   const API_URL = process.env.REACT_APP_BASE_URL;
-  console.log("api url",API_URL)
+  
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const [message, setMessage] = useState({ text: "", type: "" });
@@ -58,9 +61,8 @@ const AuthForms = () => {
 
   // Redirect to onboarding screen if authenticated
   if (authData.isAuthenticated && isLogin) {
-      return <JournalScreen/>
-  }
-  else if( authData.isAuthenticated && !isLogin){
+    return <JournalScreen />;
+  } else if (authData.isAuthenticated && !isLogin) {
     return <OnboardingScreen />;
   }
 

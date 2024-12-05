@@ -441,9 +441,11 @@ const JourneyRoadmap = () => {
       }
 
       const payload = {
-        email,
+        email:email,
+        date:authData.experienceDate,
         levels: levelsArray,
       };
+      console.log(payload)
 
       const response = await fetch(`${API_URL}/api/story-answers`, {
         method: 'POST',
@@ -451,7 +453,9 @@ const JourneyRoadmap = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify(
+          payload
+        ),
       });
 
       const data = await response.json();
