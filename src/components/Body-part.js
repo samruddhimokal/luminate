@@ -177,7 +177,7 @@ const MuscleSelector = () => {
       if (response.ok) {
         // Success: Show the message from the backend
         setMessage(data.message);
-        navigate('/'); 
+        navigate('/intension'); 
        
       } else {
         // Handle server-side errors

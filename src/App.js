@@ -1,15 +1,15 @@
 
 import './index.css';
 // import MuscleSelector from './components/Body-part';
-import OnboardingScreen from './components/OnboardingScreen.tsx';
-import AuthForms from './components/Login.tsx';
-import JournalScreen from './components/journal-screen-updated.tsx';
+import OnboardingScreen from './components/OnboardingScreen';
+import AuthForms from './components/Login';
+import JournalScreen from './components/journal-screen-updated';
 // import JourneyRoadmap from './components/journey-roadmap.tsx';
 
 import { Routes, Route } from 'react-router-dom';
 import MentalStateSelector from './components/intension.js';
 import MuscleSelector from './components/Body-part.js';
-import JourneyRoadmap from './components/journey-roadmap.tsx';
+import JourneyRoadmap from './components/journey-roadmap';
 import PostExperience from './components/postExperience.js';
 import ResourceSelector from './components/resouces.js';
 import PositiveThoughts from './components/resources/positiveThoughts.js';

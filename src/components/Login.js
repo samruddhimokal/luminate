@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "./UserContext.js"; // Adjust the path
-import OnboardingScreen from "./OnboardingScreen.tsx";
-import JournalScreen from "./journal-screen-updated.tsx";
+import OnboardingScreen from "./OnboardingScreen";
+import JournalScreen from "./journal-screen-updated";
 
 const AuthForms = () => {
   const API_URL = process.env.REACT_APP_BASE_URL;

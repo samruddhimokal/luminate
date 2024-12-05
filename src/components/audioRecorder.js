@@ -40,7 +40,7 @@ const AudioRecorder = () => {
   };
 
   const handleClosePostExperiencePopup = () => {
-    navigate("/");
+    navigate("/resource");
     setShowPostExperiencePopup(false);
   };
 
@@ -78,7 +78,7 @@ const handleSaveJournal = async () => {
   
       if (response.ok) {
         console.log("Audio entry saved successfully:", data);
-        navigate("/"); // Navigate after successful save
+        navigate("/resource"); // Navigate after successful save
       } else {
         alert(data?.message || "An error occurred. Please try again.");
       }
@@ -156,3 +156,5 @@ const handleSaveJournal = async () => {
 };
 
 export default AudioRecorder;
+
+
