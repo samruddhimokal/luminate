@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { User, Loader2, LogOut } from "lucide-react";
+import { User, Loader2, LogOut,Home } from "lucide-react";
 import NavigationBar from "./navigation";
 import { useAuth } from "./UserContext";
 import { useNavigate } from "react-router-dom";
@@ -34,70 +34,7 @@ const UserProfile = () => {
         setJournalData(null);
       }
 
-      //  console.log(profileta.journeysAll)
-
-      // console.log(profileData.journeysAll.length);
-
-      //       if(profileData?.journeysAll?.length>0  ){
-      //         const filteredData2 = profileData?.journeysAll?.find((item) => {
-      //           // Extract the date part from createdAt
-      //           console.log("ajay")
-      //           if(item === undefined)
-      //           {
-      //             return false;
-      //           }else{
-      //             const createdAtDate = new Date(item?.date)
-      //             .toISOString()
-      //             .split("T")[0];
-      //           // Compare it with the selected date
-      //           return createdAtDate === selectedDate;
-      //           }
-               
-      //         });
-
-      // setJourneyData(filteredData2);
-      // console.log(filteredData2.date)
-      //       }else{
-
-      // setJourneyData(null);
-      // }
-
-      // console.log(profileData.journeysAll.length);
-
-      // if (profileData?.journeysAll?.length > 0) {
-      //   const filteredData2 = profileData.journeysAll.find((item) => {
-      //     // Check if item is defined and has a date
-      //     if (!item || !item.date) {
-      //       setJourneyData({"not":"null"})
-      //       return false;
-      //     }
-      
-      //     try {
-      //       const createdAtDate = new Date(item.date)
-      //         .toISOString()
-      //         .split("T")[0];
-            
-      //       // Compare it with the selected date
-      //       return createdAtDate === selectedDate;
-      //     } catch (error) {
-      //       console.error("Error parsing date:", error);
-      //       return false;
-      //     }
-      //   });
-      
-      //   // Check if a matching journey was found
-      //   if (filteredData2) {
-      //     setJourneyData(filteredData2);
-      //     console.log(filteredData2.date);
-      //   } else {
-      //     // No matching journey found
-      //     setJourneyData(null);
-      //   }
-      // } else {
-      //   // No journeys in the array
-      //   setJourneyData(null);
-      // }
-
+   
 
       console.log(profileData.journeysAll.length);
 if (profileData?.journeysAll?.length > 0) {
@@ -228,6 +165,10 @@ if (profileData?.journeysAll?.length > 0) {
     navigate("/");
   };
 
+
+  const handleHome = () => {
+    navigate("/journalScreen");
+  };
   const DateDropdown = () => (
     <select
       className="mb-4 p-2 bg-gray-800 text-white rounded"
@@ -261,12 +202,26 @@ if (profileData?.journeysAll?.length > 0) {
           {profileData.user.name}
         </h3>
         <p className="text-gray-400">{profileData.user.email}</p>
-        <button
+        {/* <button
           onClick={handleLogout}
           className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center"
         >
           <LogOut className="mr-2" /> Logout
-        </button>
+        </button> */}
+         <div className="mt-4 flex space-x-4">
+          <button
+            onClick={handleHome}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded flex items-center"
+          >
+            <Home className="mr-2" /> Home
+          </button>
+          <button
+            onClick={handleLogout}
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center"
+          >
+            <LogOut className="mr-2" /> Logout
+          </button>
+        </div>
       </div>
     );
   };
@@ -322,47 +277,6 @@ if (profileData?.journeysAll?.length > 0) {
     </div>
   );
 
-  // console.log("journeyData.levels:", journeyData?.levels);
-  // console.log(typeof journeyData?.levels)
-  // console.log("journeyData.levels.length:", journalData?.levels?.length);
-
-  // const renderJourneys = () => {
-  //   if (journeyData?.levels?.length > 0) {
-  //     return renderSection(
-  //       "Journeys 1",
-  //       journeyData.levels.map((level, idx) => (
-  //         <div key={idx} className="text-gray-300 space-y-2">
-  //           <h3 className="text-purple-300 font-semibold">{level.title}</h3>
-  //           {level?.questionAnswers?.map((qa, i) => (
-  //             <p key={i} className="space-y-1">
-  //               <strong>Q:</strong> {qa.question} <br />
-  //               <strong>A:</strong> {qa.answer}
-  //             </p>
-  //           ))}
-  //         </div>
-  //       ))
-  //     );
-  //   } else if (profileData?.journeys?.levels?.length > 0 ) {
-  //     return renderSection(
-  //       "Journeys",
-  //       profileData.journeys.levels.map((level, idx) => (
-  //         <div key={idx} className="text-gray-300 space-y-2">
-  //           <h3 className="text-purple-300 font-semibold">{level.title}</h3>
-  //           {level?.questionAnswers?.map((qa, i) => (
-  //             <p key={i} className="space-y-1">
-  //               <strong>Q:</strong> {qa.question} <br />
-  //               <strong>A:</strong> {qa.answer}
-  //             </p>
-  //           ))}
-  //         </div>
-  //       ))
-  //     );
-  //   } else {
-  //     return renderSection("Journeys", []);
-  //   }
-
-  //   // Pass an empty array if no data is available
-  // };
 
   console.log(journeyData)
 
