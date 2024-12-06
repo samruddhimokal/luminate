@@ -10,7 +10,7 @@ const UserProfile = () => {
   const { email, token } = authData;
   const [profileData, setProfileData] = useState(null);
   const [journalData, setJournalData] = useState(null);
-  const [journeyData, setJourneyData] = useState({});
+  const [journeyData, setJourneyData] = useState(null);
   const [muscleData, setMuscleData] = useState(null);
   const [postData, setPostData] = useState(null);
   const [audioData, setAudioData] = useState(null);
@@ -23,69 +23,174 @@ const UserProfile = () => {
     fetchProfileData();
   }, []);
 
-
   useEffect(() => {
     if (selectedDate) {
-      const filteredData1 = profileData.journalAllData.filter(
-        (item) => item.experienceDate === selectedDate
-      );
-      setJournalData(filteredData1);
-       
-            //  console.log(profileta.journeysAll)
+      if (profileData.journalAllData) {
+        const filteredData1 = profileData.journalAllData.filter(
+          (item) => item.experienceDate === selectedDate
+        );
+        setJournalData(filteredData1);
+      } else {
+        setJournalData(null);
+      }
 
+      //  console.log(profileta.journeysAll)
+
+      // console.log(profileData.journeysAll.length);
+
+      //       if(profileData?.journeysAll?.length>0  ){
+      //         const filteredData2 = profileData?.journeysAll?.find((item) => {
+      //           // Extract the date part from createdAt
+      //           console.log("ajay")
+      //           if(item === undefined)
+      //           {
+      //             return false;
+      //           }else{
+      //             const createdAtDate = new Date(item?.date)
+      //             .toISOString()
+      //             .split("T")[0];
+      //           // Compare it with the selected date
+      //           return createdAtDate === selectedDate;
+      //           }
+               
+      //         });
+
+      // setJourneyData(filteredData2);
+      // console.log(filteredData2.date)
+      //       }else{
+
+      // setJourneyData(null);
+      // }
+
+      // console.log(profileData.journeysAll.length);
+
+      // if (profileData?.journeysAll?.length > 0) {
+      //   const filteredData2 = profileData.journeysAll.find((item) => {
+      //     // Check if item is defined and has a date
+      //     if (!item || !item.date) {
+      //       setJourneyData({"not":"null"})
+      //       return false;
+      //     }
+      
+      //     try {
+      //       const createdAtDate = new Date(item.date)
+      //         .toISOString()
+      //         .split("T")[0];
             
-      const filteredData2 = profileData.journeysAll.find((item) => {
-        // Extract the date part from createdAt
-        const createdAtDate = new Date(item.date)
-          .toISOString()
-          .split("T")[0];
-        // Compare it with the selected date
-        return createdAtDate === selectedDate;
+      //       // Compare it with the selected date
+      //       return createdAtDate === selectedDate;
+      //     } catch (error) {
+      //       console.error("Error parsing date:", error);
+      //       return false;
+      //     }
+      //   });
+      
+      //   // Check if a matching journey was found
+      //   if (filteredData2) {
+      //     setJourneyData(filteredData2);
+      //     console.log(filteredData2.date);
+      //   } else {
+      //     // No matching journey found
+      //     setJourneyData(null);
+      //   }
+      // } else {
+      //   // No journeys in the array
+      //   setJourneyData(null);
+      // }
+
+
+      console.log(profileData.journeysAll.length);
+if (profileData?.journeysAll?.length > 0) {
+  const filteredData2 = profileData.journeysAll.find((item) => {
+    // Check if item is defined and has a date
+    if (!item || !item.date) {
+      // Instead of returning false, set a custom "not found" object
+      setJourneyData({
+        notFound: true,
+        message: "No journey details available for the selected date",
+        selectedDate: selectedDate
       });
+      return false;
+    }
 
-    //  console.log(filteredData2["levels"])
-     
-      setJourneyData(filteredData2);
-
-  console.log(filteredData2.date)
-     
-    
-
-      const filteredData3 = profileData.muscleSelectionsAll.filter((item) => {
-        // Extract the date part from createdAt
-        const createdAtDate = new Date(item.date)
-          .toISOString()
-          .split("T")[0];
-        // Compare it with the selected date
-        return createdAtDate === selectedDate;
+    try {
+      const createdAtDate = new Date(item.date)
+        .toISOString()
+        .split("T")[0];
+      
+      // Compare it with the selected date
+      return createdAtDate === selectedDate;
+    } catch (error) {
+      console.error("Error parsing date:", error);
+      // Set a custom error object when date parsing fails
+      setJourneyData({
+        error: true,
+        message: "Error processing journey date",
+        originalError: error.toString(),
+        selectedDate: selectedDate
       });
-      setMuscleData(filteredData3);
+      return false;
+    }
+  });
 
-      const filteredData4 = profileData.postExperiencesAll.filter((item) => {
-        // Extract the date part from createdAt
-        const createdAtDate = new Date(item.date)
-          .toISOString()
-          .split("T")[0];
-        // Compare it with the selected date
-        return createdAtDate === selectedDate;
-      });
+  // Check if a matching journey was found
+  if (filteredData2) {
+    setJourneyData(filteredData2);
+    console.log(filteredData2.date);
+  } else {
+    // No matching journey found
+    setJourneyData({
+      notFound: true,
+      message: "No journey found for the selected date",
+      selectedDate: selectedDate
+    });
+  }
+} else {
+  // No journeys in the array
+  setJourneyData({
+    empty: true,
+    message: "No journeys available",
+    selectedDate: selectedDate
+  });
+}
+      if (profileData.muscleSelectionsAll) {
+        const filteredData3 = profileData.muscleSelectionsAll.filter((item) => {
+          // Extract the date part from createdAt
+          const createdAtDate = new Date(item.date).toISOString().split("T")[0];
+          // Compare it with the selected date
+          return createdAtDate === selectedDate;
+        });
+        setMuscleData(filteredData3);
+      } else {
+        setMuscleData(null);
+      }
 
-      setPostData(filteredData4);
-      const filteredData5 = profileData.audiosAll.filter((item) => {
-        // Extract the date part from createdAt
-        const createdAtDate = new Date(item.date)
-          .toISOString()
-          .split("T")[0];
-        // Compare it with the selected date
-        return createdAtDate === selectedDate;
-      });
+      if (profileData.postExperiencesAll) {
+        const filteredData4 = profileData.postExperiencesAll.filter((item) => {
+          // Extract the date part from createdAt
+          const createdAtDate = new Date(item.date).toISOString().split("T")[0];
+          // Compare it with the selected date
+          return createdAtDate === selectedDate;
+        });
+        setPostData(filteredData4);
+      } else {
+        setPostData(null);
+      }
 
-      setAudioData(filteredData5);
+      if (profileData.audiosAll) {
+        const filteredData5 = profileData.audiosAll.filter((item) => {
+          // Extract the date part from createdAt
+          const createdAtDate = new Date(item.date).toISOString().split("T")[0];
+          // Compare it with the selected date
+          return createdAtDate === selectedDate;
+        });
+
+        setAudioData(filteredData5);
+      } else {
+        setAudioData(null);
+      }
     }
   }, [selectedDate]);
-
-
-
 
   const fetchProfileData = async () => {
     setLoading(true);
@@ -96,7 +201,7 @@ const UserProfile = () => {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email,selectedDate }),
+        body: JSON.stringify({ email, selectedDate }),
       });
       const data = await response.json();
       if (response.ok) {
@@ -138,8 +243,6 @@ const UserProfile = () => {
     </select>
   );
 
-
-
   const renderUserInfoCard = () => {
     if (!profileData?.user) return null;
 
@@ -172,9 +275,7 @@ const UserProfile = () => {
     <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-8">
       <h2 className="text-2xl font-bold text-purple-400 mb-4">{title}</h2>
       {content?.length > 0 ? (
-       
         content.map((item, index) => (
-          
           <div key={index} className="mb-4">
             {item}
           </div>
@@ -202,12 +303,6 @@ const UserProfile = () => {
         )
       : null;
 
-
-
-      
-   
- 
-
   const renderSection1 = (title, content) => (
     <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-8">
       <h2 className="text-2xl font-bold text-purple-400 mb-4">{title}</h2>
@@ -226,18 +321,56 @@ const UserProfile = () => {
       )}
     </div>
   );
-  
 
   // console.log("journeyData.levels:", journeyData?.levels);
   // console.log(typeof journeyData?.levels)
   // console.log("journeyData.levels.length:", journalData?.levels?.length);
-  
+
+  // const renderJourneys = () => {
+  //   if (journeyData?.levels?.length > 0) {
+  //     return renderSection(
+  //       "Journeys 1",
+  //       journeyData.levels.map((level, idx) => (
+  //         <div key={idx} className="text-gray-300 space-y-2">
+  //           <h3 className="text-purple-300 font-semibold">{level.title}</h3>
+  //           {level?.questionAnswers?.map((qa, i) => (
+  //             <p key={i} className="space-y-1">
+  //               <strong>Q:</strong> {qa.question} <br />
+  //               <strong>A:</strong> {qa.answer}
+  //             </p>
+  //           ))}
+  //         </div>
+  //       ))
+  //     );
+  //   } else if (profileData?.journeys?.levels?.length > 0 ) {
+  //     return renderSection(
+  //       "Journeys",
+  //       profileData.journeys.levels.map((level, idx) => (
+  //         <div key={idx} className="text-gray-300 space-y-2">
+  //           <h3 className="text-purple-300 font-semibold">{level.title}</h3>
+  //           {level?.questionAnswers?.map((qa, i) => (
+  //             <p key={i} className="space-y-1">
+  //               <strong>Q:</strong> {qa.question} <br />
+  //               <strong>A:</strong> {qa.answer}
+  //             </p>
+  //           ))}
+  //         </div>
+  //       ))
+  //     );
+  //   } else {
+  //     return renderSection("Journeys", []);
+  //   }
+
+  //   // Pass an empty array if no data is available
+  // };
+
+  console.log(journeyData)
 
   const renderJourneys = () => {
-  
+    // First priority: journeyData from the specific selected journey
     if (journeyData?.levels?.length > 0) {
       return renderSection(
-        "Journeys 1",
+        "Journeys",
         journeyData.levels.map((level, idx) => (
           <div key={idx} className="text-gray-300 space-y-2">
             <h3 className="text-purple-300 font-semibold">{level.title}</h3>
@@ -250,9 +383,9 @@ const UserProfile = () => {
           </div>
         ))
       );
-    }
-  
-   else if (profileData?.journeys?.levels?.length > 0) {
+    } 
+    // When journeyData is null after searching a specific date
+    else if (journeyData === null && profileData?.journeys?.levels?.length > 0) {
       return renderSection(
         "Journeys",
         profileData.journeys.levels.map((level, idx) => (
@@ -267,19 +400,12 @@ const UserProfile = () => {
           </div>
         ))
       );
-    }
-    else{
+    } 
+    // Fallback: empty state when no journeys exist
+    else {
       return renderSection("Journeys", []);
     }
-  
-    // Pass an empty array if no data is available
   };
-  
-  
-  
-
-  console.log(typeof audioData)
-
 
   const renderMuscleSelections = () =>
     muscleData
@@ -327,7 +453,7 @@ const UserProfile = () => {
         )
       : renderSection(
           "Audio Summary",
-          audioData.map((item) => (
+          profileData.audios.map((item) => (
             <p className="text-gray-300 space-y-1" key={item._id}>
               {profileData.audios.audio}
             </p>

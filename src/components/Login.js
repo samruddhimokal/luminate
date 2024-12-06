@@ -8,7 +8,7 @@ import JournalScreen from "./journal-screen-updated";
 
 const AuthForms = () => {
   const API_URL = process.env.REACT_APP_BASE_URL;
-  
+    
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const [message, setMessage] = useState({ text: "", type: "" });
