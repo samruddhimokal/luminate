@@ -19,7 +19,8 @@ const NavigationBar = () => {
     return (
         <nav className="fixed top-0 left-0 right-0 z-50 bg-transparent">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
-                {/* App Name */}
+               
+                
                 <div 
                     className="flex-shrink-0 text-purple-300 text-2xl font-bold absolute top-0 left-0 m-4 cursor-pointer" 
                     onClick={goToHome}

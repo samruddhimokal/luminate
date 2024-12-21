@@ -5,7 +5,7 @@ import React, { useState } from "react";
 import { useAuth } from "./UserContext"; // Adjust the path
 import OnboardingScreen from "./OnboardingScreen";
 import JournalScreen from "./journal-screen-updated";
-
+import { useNavigate } from "react-router-dom";
 const AuthForms = () => {
   const API_URL = process.env.REACT_APP_BASE_URL;
     
@@ -13,8 +13,8 @@ const AuthForms = () => {
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const [message, setMessage] = useState({ text: "", type: "" });
   const [isLoading, setIsLoading] = useState(false);
-  const { authData, login } = useAuth(); // Access auth context
-
+  const { authData, login ,logout} = useAuth(); // Access auth context
+  const navigate = useNavigate();
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const toggleForm = () => {
@@ -23,41 +23,90 @@ const AuthForms = () => {
     setFormData({ username: "", email: "", password: "" });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setIsLoading(true);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setIsLoading(true);
 
-    const url = isLogin
-      ? `${API_URL}/auth/login`
-      : `${API_URL}/auth/register`;
+  //   const url = isLogin
+  //     ? `${API_URL}/auth/login`
+  //     : `${API_URL}/auth/register`;
 
-    const payload = {
-      email: formData.email,
-      password: formData.password,
-      ...(isLogin ? {} : { name: formData.username }), // Add name for registration
-    };
+  //   const payload = {
+  //     email: formData.email,
+  //     password: formData.password,
+  //     ...(isLogin ? {} : { name: formData.username }), // Add name for registration
+  //   };
 
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+  //   try {
+  //     const response = await fetch(url, {
+  //       method: "POST",
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(payload),
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
     
-      if (response.ok) {
-        login(data.user.email, data.token); // Update auth context
-        setMessage({ text: "Authentication successful!", type: "success" });
+  //     if (response.ok) {
+  //       login(data.user.email, data.token); // Update auth context
+  //       setMessage({ text: "Authentication successful!", type: "success" });
+  //     } else {
+  //       console.log("message",data.message)
+  //       setMessage({ text: data.message || "Authentication failed.", type: "error" });
+  //     }
+  //   } catch (error) {
+  //     setMessage({ text: "Network error, please try again.", type: "error" });
+  //   } finally {
+  //     setIsLoading(false);
+  //   }
+  // };
+
+  // const { authData, login,  } = useAuth(); // Include logout from context
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  setIsLoading(true);
+
+  const url = isLogin
+    ? `${API_URL}/auth/login`
+    : `${API_URL}/auth/register`;
+
+  const payload = {
+    email: formData.email,
+    password: formData.password,
+    ...(isLogin ? {} : { name: formData.username }), // Add name for registration
+  };
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      login(data.user.email, data.token); // Update auth context
+      setMessage({ text: "Authentication successful!", type: "success" });
+    } else {
+      if (data.message === "Invalid or expired token. Please log in again.") {
+        logout(); 
+        navigate("/");// Clear user session
+        setMessage({ text: "Session expired. Redirecting to login...", type: "error" });
+        setTimeout(() => {
+          setIsLogin(true); // Redirect to login form
+          setMessage({ text: "", type: "" }); // Clear messages
+        }, 2000);
       } else {
         setMessage({ text: data.message || "Authentication failed.", type: "error" });
       }
-    } catch (error) {
-      setMessage({ text: "Network error, please try again.", type: "error" });
-    } finally {
-      setIsLoading(false);
     }
-  };
+  } catch (error) {
+    setMessage({ text: "Network error, please try again.", type: "error" });
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   // Redirect to onboarding screen if authenticated
   if (authData.isAuthenticated && isLogin) {

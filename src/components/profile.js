@@ -73,7 +73,7 @@ if (profileData?.journeysAll?.length > 0) {
   // Check if a matching journey was found
   if (filteredData2) {
     setJourneyData(filteredData2);
-    console.log(filteredData2.date);
+    // console.log(filteredData2.date);
   } else {
     // No matching journey found
     setJourneyData({
@@ -129,6 +129,7 @@ if (profileData?.journeysAll?.length > 0) {
     }
   }, [selectedDate]);
 
+
   const fetchProfileData = async () => {
     setLoading(true);
     try {
@@ -141,13 +142,19 @@ if (profileData?.journeysAll?.length > 0) {
         body: JSON.stringify({ email, selectedDate }),
       });
       const data = await response.json();
+  
       if (response.ok) {
         setProfileData(data.data);
         const latestDate = data.data.dates[data.data.dates.length - 1]; // Get the last date, assuming it's the latest
         setSelectedDate(latestDate);
         setError(null);
       } else {
-        setError(data.message);
+        if (response.status === 401 && data.message.includes("Invalid or expired token")) {
+          // Handle token expiration or invalid token
+          handleLogout();
+        } else {
+          setError(data.message || "Error fetching user data. Please try again.");
+        }
       }
     } catch (err) {
       setError("Error fetching user data. Please try again.");
@@ -155,14 +162,17 @@ if (profileData?.journeysAll?.length > 0) {
       setLoading(false);
     }
   };
-
+  
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
   };
 
+
   const handleLogout = () => {
-    logout();
-    navigate("/");
+    setError("Session expired. Redirecting to login...");
+setTimeout(() => {
+  navigate("/");
+}, 2000);
   };
 
 
@@ -280,8 +290,58 @@ if (profileData?.journeysAll?.length > 0) {
 
   console.log(journeyData)
 
+  // const renderJourneys = () => {
+  //   // First priority: journeyData from the specific selected journey
+
+  //   console.log("journey data",journeyData.levels)
+  //   console.log("profiledata",profileData?.journeys?.levels)
+  //   if (journeyData?.levels?.length > 0) {
+  //     return renderSection(
+  //       console.log("in journedy data"),
+  //       "Journeys",
+  //       journeyData.levels.map((level, idx) => (
+  //         <div key={idx} className="text-gray-300 space-y-2">
+  //           <h3 className="text-purple-300 font-semibold">{level.title}</h3>
+  //           {level?.questionAnswers?.map((qa, i) => (
+  //             <p key={i} className="space-y-1">
+  //               <strong>Q:</strong> {qa.question} <br />
+  //               <strong>A:</strong> {qa.answer}
+  //             </p>
+  //           ))}
+  //         </div>
+  //       ))
+  //     );
+  //   } 
+  //   // When journeyData is null after searching a specific date
+  //   else if (journeyData === null && profileData?.journeys?.levels?.length > 0) {
+  //     return renderSection(
+  //       console.log("in prodile data"),
+  //       "Journeys",
+  //       profileData.journeys.levels.map((level, idx) => (
+  //         <div key={idx} className="text-gray-300 space-y-2">
+  //           <h3 className="text-purple-300 font-semibold">{level.title}</h3>
+  //           {level?.questionAnswers?.map((qa, i) => (
+  //             <p key={i} className="space-y-1">
+  //               <strong>Q:</strong> {qa.question} <br />
+  //               <strong>A:</strong> {qa.answer}
+  //             </p>
+  //           ))}
+  //         </div>
+  //       ))
+  //     );
+  //   } 
+  //   // Fallback: empty state when no journeys exist
+  //   else {
+  //     return renderSection("Journeys", []);
+  //   }
+  // };
+
+
   const renderJourneys = () => {
-    // First priority: journeyData from the specific selected journey
+    console.log("Journey Data:", journeyData);
+    console.log("Profile Data Journeys:", profileData?.journeys);
+  
+    // Check if journeyData exists and has levels
     if (journeyData?.levels?.length > 0) {
       return renderSection(
         "Journeys",
@@ -297,9 +357,10 @@ if (profileData?.journeysAll?.length > 0) {
           </div>
         ))
       );
-    } 
-    // When journeyData is null after searching a specific date
-    else if (journeyData === null && profileData?.journeys?.levels?.length > 0) {
+    }
+  
+    // Check if profileData.journeys exists and has levels
+    if (profileData?.journeys?.levels?.length > 0) {
       return renderSection(
         "Journeys",
         profileData.journeys.levels.map((level, idx) => (
@@ -314,13 +375,16 @@ if (profileData?.journeysAll?.length > 0) {
           </div>
         ))
       );
-    } 
-    // Fallback: empty state when no journeys exist
-    else {
-      return renderSection("Journeys", []);
     }
+  
+    // Default fallback: No journeys found
+    return renderSection("Journeys", [
+      <p key="no-journeys" className="text-gray-400">
+        No journeys available for the selected date or overall.
+      </p>,
+    ]);
   };
-
+  
   const renderMuscleSelections = () =>
     muscleData
       ? renderSection("Muscle Selections", [
@@ -340,40 +404,78 @@ if (profileData?.journeysAll?.length > 0) {
           </div>,
         ]);
 
-  const renderPostExperiences = () =>
-    postData
-      ? renderSection("Post Experiences", [
-          postData.map((item) => (
-            <p className="text-gray-300 space-y-1" key={item._id}>
-              {item.postExperience}
-            </p>
-          )),
-        ])
-      : renderSection("Post Experiences", [
-          <p className="text-gray-300 space-y-1" key="postExp">
-            {profileData.postExperiences.postExperience}
-          </p>,
-        ]);
+  // const renderPostExperiences = () =>
+  //   postData
+  //     ? renderSection("Post Experiences", [
+  //         postData.map((item) => (
+  //           <p className="text-gray-300 space-y-1" key={item._id}>
+  //             {item.postExperience}
+  //           </p>
+  //         )),
+  //       ])
+  //     : renderSection("Post Experiences", [
+  //         <p className="text-gray-300 space-y-1" key="postExp">
+  //           {profileData.postExperiences.postExperience}
+  //         </p>,
+  //       ]);
 
-  const renderAudios = () =>
-    audioData
-      ? renderSection(
-          "Audio Summary",
-          audioData.map((item) => (
-            <p className="text-gray-300 space-y-1" key={item._id}>
-              {item.audio}
-            </p>
-          ))
-        )
-      : renderSection(
-          "Audio Summary",
-          profileData.audios.map((item) => (
-            <p className="text-gray-300 space-y-1" key={item._id}>
-              {profileData.audios.audio}
-            </p>
-          ))
-        );
 
+  const renderPostExperiences = () => {
+    // If postData exists, map through it
+    if (postData) {
+      return renderSection("Post Experiences", [
+        postData.map((item) => (
+          <p className="text-gray-300 space-y-1" key={item._id}>
+            {item.postExperience || "No post experience available"}
+          </p>
+        )),
+      ]);
+    }
+  
+    // Fallback to profileData.postExperiences
+    const fallbackPostExperience =
+      profileData?.postExperiences?.postExperience || "No post experience available";
+  
+    return renderSection("Post Experiences", [
+      <p className="text-gray-300 space-y-1" key="postExp">
+        {fallbackPostExperience}
+      </p>,
+    ]);
+  };
+  
+  const renderAudios = () => {
+    // If audioData exists and is an array, map through it
+    if (Array.isArray(audioData) && audioData.length > 0) {
+      return renderSection(
+        "Audio Summary",
+        audioData.map((item) => (
+          <p className="text-gray-300 space-y-1" key={item._id}>
+            {item.audio || "No audio summary available"}
+          </p>
+        ))
+      );
+    }
+  
+    // If profileData.audios exists and is an array, map through it
+    if (Array.isArray(profileData?.audios) && profileData.audios.length > 0) {
+      return renderSection(
+        "Audio Summary",
+        profileData.audios.map((item) => (
+          <p className="text-gray-300 space-y-1" key={item._id}>
+            {item.audio || "No audio summary available"}
+          </p>
+        ))
+      );
+    }
+  
+    // Fallback: no audio data available
+    return renderSection("Audio Summary", [
+      <p className="text-gray-400" key="no-audio">
+        No audio summaries available.
+      </p>,
+    ]);
+  };
+  
   const renderJournals = () => {
     // If journalData is not null, show specific journal data for the selected date
     if (journalData) {
@@ -411,7 +513,15 @@ if (profileData?.journeysAll?.length > 0) {
       // If journalData is null, show default data from profileData.journals
       // This block will execute when the component is initially rendered
       if (!profileData?.journals)
-        return <p>No default journal entries available.</p>;
+      {
+        return renderSection("Journals", [
+          <p className="text-gray-400" key="no-audio">
+           No default journal entries available.
+          </p>,
+        ]);
+      }
+        
+
 
       return (
         <div className="flex justify-between items-center bg-gray-800 rounded-lg shadow-xl p-6 mb-8">
