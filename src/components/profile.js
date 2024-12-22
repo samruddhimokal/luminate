@@ -169,11 +169,11 @@ if (profileData?.journeysAll?.length > 0) {
 
 
   const handleLogout = () => {
-    setError("Session expired. Redirecting to login...");
+
     logout();
-setTimeout(() => {
+
   navigate("/");
-}, 2000);
+
   };
 
 
