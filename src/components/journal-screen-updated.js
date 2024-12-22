@@ -58,12 +58,7 @@ const JournalScreen = () => {
 
  
 
-  // const handleDateChange = (date) => {
-  //   // Adjust the date to ensure it is in the local time zone
-  //   const adjustedDate = new Date(date.setHours(0, 0, 0, 0));
-  //   console.log(adjustedDate)
-  //   setExperienceDate(adjustedDate);
-  // };
+
   const handleDateChange = (date) => {
     const adjustedDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
     console.log("Selected Date in UTC: ", adjustedDate);  // Check what gets printed

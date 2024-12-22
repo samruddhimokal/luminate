@@ -103,6 +103,7 @@ export const AuthProvider = ({ children }) => {
   const [authData, setAuthData] = useState({
     email: localStorage.getItem('userEmail') || '',
     token: localStorage.getItem('userToken') || '',
+    isNewUser: localStorage.getItem('isNewUser') === 'true',
     isAuthenticated: !!localStorage.getItem('userToken'),
     experienceDate: localStorage.getItem('experienceDate') || '', // Set experienceDate from localStorage
   });
@@ -115,6 +116,11 @@ export const AuthProvider = ({ children }) => {
   console.log("api date",isoDate)
     localStorage.setItem('experienceDate', isoDate); // Save to localStorage
     setAuthData((prevState) => ({ ...prevState, experienceDate:isoDate})); // Update context state
+  };
+
+    const setNewUserFlag = (isNewUser) => {
+    localStorage.setItem('isNewUser', isNewUser ? 'true' : 'false');
+    setAuthData((prevState) => ({ ...prevState, isNewUser }));
   };
 
   // Login Function
@@ -143,7 +149,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ authData, login, logout, api, setDate }}>
+    <AuthContext.Provider value={{ authData, login, logout, api, setDate,setNewUserFlag }}>
       {children}
     </AuthContext.Provider>
   );

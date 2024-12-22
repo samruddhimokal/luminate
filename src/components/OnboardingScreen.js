@@ -8,21 +8,16 @@
 //   ClipboardCheck,
 //   Plus,
 //   Minus
- 
 // } from 'lucide-react';
 
-
-
 // import { useNavigate } from 'react-router-dom';
-
 // import NavigationBar from './navigation';
 // import { useAuth } from './UserContext';
-
 
 // const OnboardingScreen = () => {
 //   const API_URL = process.env.REACT_APP_BASE_URL;
 //   const navigate = useNavigate();
-//   const { authData} = useAuth();
+//   const { authData } = useAuth();
 
 //   const [currentQuestion, setCurrentQuestion] = useState(0);
 //   const [answers, setAnswers] = useState({});
@@ -41,7 +36,7 @@
 //     {
 //       id: 2,
 //       question: "How often do you frequent these experiences? (Select one)",
-//       options: ["Twice a week", "Once a week", "⁠Once every 2 weeks", "Once every month","Once every 3 months","Once every 6 months","⁠Once every year"],
+//       options: ["Twice a week", "Once a week", "⁠Once every 2 weeks", "Once every month", "Once every 3 months", "Once every 6 months", "⁠Once every year"],
 //       multiSelect: false
 //     },
 //     {
@@ -60,7 +55,7 @@
 //     {
 //       id: 5,
 //       question: "What do you normally feel after the experience? (Select all that apply)",
-//       options: ["Clarity", "Peace", "Joy","Love","Focus","Passion","Healing"],
+//       options: ["Clarity", "Peace", "Joy", "Love", "Focus", "Passion", "Healing"],
 //       multiSelect: true
 //     },
 //     {
@@ -71,7 +66,6 @@
 //     }
 //   ];
 
- 
 //   const handleAnswer = (option) => {
 //     const currentAnswers = answers[currentQuestion] || [];
 //     const question = questions[currentQuestion];
@@ -115,20 +109,16 @@
 //   const isAnswered = answers[currentQuestion]?.length > 0;
 //   const allQuestionsAnswered = Object.keys(answers).length === questions.length;
 
-
- 
 //   const handleContinue = async () => {
-//     const { email, token } = authData; 
+//     const { email, token } = authData;
   
 //     if (!email || !token) {
 //       alert("Authentication error. Please log in again.");
 //       return;
 //     }
   
-//     // Format answers into the required structure
 //     const formattedResponses = Object.entries(answers).map(([questionIndex, answer]) => {
 //       if (questions[questionIndex]?.id === 3) {
-//         // Special handling for Question 3
 //         return {
 //           question: questions[questionIndex].question,
 //           answer: Array.isArray(answer)
@@ -139,11 +129,10 @@
   
 //       return {
 //         question: questions[questionIndex]?.question,
-//         answer: Array.isArray(answer) ? answer.join(', ') : answer, // Format multi-select answers
+//         answer: Array.isArray(answer) ? answer.join(', ') : answer,
 //       };
 //     });
-  
-//     // Ensure answers are valid before making a request
+
 //     if (formattedResponses.length === 0) {
 //       alert("No answers provided. Please complete the onboarding process.");
 //       return;
@@ -151,18 +140,20 @@
   
 //     const payload = {
 //       email: email,
+
 //       responses: formattedResponses,
 //     };
   
 //     try {
-//       // Send the data to the backend
 //       const response = await fetch(`${API_URL}/api/save-answers`, {
 //         method: 'POST',
 //         headers: {
 //           'Content-Type': 'application/json',
-//           Authorization: `Bearer ${token}`, // Include auth token
+//           Authorization: `Bearer ${token}`,
 //         },
-//         body: JSON.stringify(payload),
+//         body: JSON.stringify(
+//           payload
+//         ),
 //       });
   
 //       const data = await response.json();
@@ -179,19 +170,14 @@
 //       alert("An unknown error occurred. Please try again.");
 //     }
 //   };
-  
 
-
-
-//   const handleCounter= (substance, increment) => {
+//   const handleCounter = (substance, increment) => {
 //     setCounters(prev => ({
 //       ...prev,
 //       [substance]: Math.max(0, Math.min((prev[substance] || 0) + (increment ? 1 : -1), 6))
 //     }));
 //   };
-  
 
-  
 //   const QuestionThree = () => (
 //     <div className="space-y-4">
 //       {substances.map((substance) => {
@@ -244,15 +230,10 @@
 //       })}
 //     </div>
 //   );
-  
 
- 
 //   if (isComplete) {
 //     return (
-// <>
-
-// <div className="min-h-screen bg-gradient-to-b from-black via-purple-950 to-black p-4 flex flex-col items-center justify-center mb-10">
-
+//       <div className="min-h-screen bg-gradient-to-b from-black via-purple-950 to-black p-4 flex flex-col items-center justify-center mb-10">
 //         <div className="w-full max-w-md text-center space-y-6">
 //           <ClipboardCheck className="w-16 h-16 text-purple-400 mx-auto" />
 //           <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
@@ -269,8 +250,6 @@
 //           </button>
 //         </div>
 //       </div>
-// </>
-      
 //     );
 //   }
 
@@ -280,7 +259,7 @@
 //       onKeyDown={handleKeyDown}
 //       tabIndex={0}
 //     >
-//       <NavigationBar/>
+//       <NavigationBar />
 //       <div className="w-full max-w-md flex items-center gap-2 mb-6">
 //         <Sparkles className="w-5 h-5 text-purple-400" />
 //         <h1 className="text-lg font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
@@ -383,14 +362,11 @@
 //       >
 //         Complete Onboarding
 //       </button>
-   
-
 //     </div>
 //   );
 // };
 
 // export default OnboardingScreen;
-
 
 
 import React, { useState } from 'react';
@@ -418,60 +394,44 @@ const OnboardingScreen = () => {
   const [counters, setCounters] = useState({});
   const [isComplete, setIsComplete] = useState(false);
 
-  const substances = ["Ketamine", "Cannabis", "⁠Ayahuasca", "Mushrooms", "⁠MDMA", "⁠LSD"];
-
   const questions = [
     {
       id: 1,
-      question: "Which experiences have you experienced before? (Select all that apply)",
-      options: substances,
-      multiSelect: true
+      question: "Have you had any experience with plant medicine or psychedelic journeys before, or is this your first time exploring them?",
+      type: "text"
     },
     {
       id: 2,
-      question: "How often do you frequent these experiences? (Select one)",
-      options: ["Twice a week", "Once a week", "⁠Once every 2 weeks", "Once every month", "Once every 3 months", "Once every 6 months", "⁠Once every year"],
+      question: "What would you most like to gain from this experience—personal growth, emotional healing, spiritual insight, or something else?",
+      options: ["Personal Growth", "Emotional Healing", "Spiritual Insight", "Something Else"],
       multiSelect: false
     },
     {
       id: 3,
-      question: "How many times have you had each experience?",
-      options: substances,
-      showCounters: true,
+      question: "Which types of guidance would you find most helpful—expert support, preparation checklists, integration exercises, or access to a supportive community?",
+      options: ["Expert Support", "Preparation Checklists", "Integration Exercises", "Access to a Supportive Community"],
       multiSelect: true
     },
     {
       id: 4,
-      question: "Have you set an intention for your experiences before?",
-      options: ["Yes", "No"],
-      multiSelect: false
-    },
-    {
-      id: 5,
-      question: "What do you normally feel after the experience? (Select all that apply)",
-      options: ["Clarity", "Peace", "Joy", "Love", "Focus", "Passion", "Healing"],
-      multiSelect: true
-    },
-    {
-      id: 6,
-      question: "Have you ever recorded yourself speaking during an experience?",
-      options: ["Yes", "No"],
-      multiSelect: false
+      question: "What kind of ongoing support or resources would be most helpful to you as you progress through your plant medicine experience?",
+      type: "text"
     }
   ];
 
-  const handleAnswer = (option) => {
-    const currentAnswers = answers[currentQuestion] || [];
+  const handleAnswer = (value) => {
     const question = questions[currentQuestion];
-    
-    if (question.multiSelect) {
-      const newAnswers = currentAnswers.includes(option)
-        ? currentAnswers.filter(item => item !== option)
-        : [...currentAnswers, option];
-      
+
+    if (question.type === "text") {
+      setAnswers({ ...answers, [currentQuestion]: value });
+    } else if (question.multiSelect) {
+      const currentAnswers = answers[currentQuestion] || [];
+      const newAnswers = currentAnswers.includes(value)
+        ? currentAnswers.filter(item => item !== value)
+        : [...currentAnswers, value];
       setAnswers({ ...answers, [currentQuestion]: newAnswers });
     } else {
-      setAnswers({ ...answers, [currentQuestion]: [option] });
+      setAnswers({ ...answers, [currentQuestion]: [value] });
       setTimeout(() => {
         if (currentQuestion < questions.length - 1) {
           setCurrentQuestion(currentQuestion + 1);
@@ -487,40 +447,24 @@ const OnboardingScreen = () => {
   };
 
   const handleNext = () => {
-    if (currentQuestion < questions.length - 1 && answers[currentQuestion]?.length > 0) {
+    if (currentQuestion < questions.length - 1 && answers[currentQuestion]) {
       setCurrentQuestion(currentQuestion + 1);
     }
   };
 
-  const handleKeyDown = (e) => {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      handleNext();
-    }
-  };
-
   const progress = ((currentQuestion + 1) / questions.length) * 100;
-  const isAnswered = answers[currentQuestion]?.length > 0;
+  const isAnswered = Boolean(answers[currentQuestion]);
   const allQuestionsAnswered = Object.keys(answers).length === questions.length;
 
   const handleContinue = async () => {
     const { email, token } = authData;
-  
+
     if (!email || !token) {
       alert("Authentication error. Please log in again.");
       return;
     }
-  
+
     const formattedResponses = Object.entries(answers).map(([questionIndex, answer]) => {
-      if (questions[questionIndex]?.id === 3) {
-        return {
-          question: questions[questionIndex].question,
-          answer: Array.isArray(answer)
-            ? answer.map((substance) => `${substance} (${counters[substance] || 0}x)`).join(', ')
-            : answer,
-        };
-      }
-  
       return {
         question: questions[questionIndex]?.question,
         answer: Array.isArray(answer) ? answer.join(', ') : answer,
@@ -531,13 +475,12 @@ const OnboardingScreen = () => {
       alert("No answers provided. Please complete the onboarding process.");
       return;
     }
-  
+
     const payload = {
       email: email,
-
       responses: formattedResponses,
     };
-  
+
     try {
       const response = await fetch(`${API_URL}/api/save-answers`, {
         method: 'POST',
@@ -545,13 +488,11 @@ const OnboardingScreen = () => {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(
-          payload
-        ),
+        body: JSON.stringify(payload),
       });
-  
+
       const data = await response.json();
-  
+
       if (response.ok) {
         console.log('Save successful:', data);
         setIsComplete(true);
@@ -565,66 +506,6 @@ const OnboardingScreen = () => {
     }
   };
 
-  const handleCounter = (substance, increment) => {
-    setCounters(prev => ({
-      ...prev,
-      [substance]: Math.max(0, Math.min((prev[substance] || 0) + (increment ? 1 : -1), 6))
-    }));
-  };
-
-  const QuestionThree = () => (
-    <div className="space-y-4">
-      {substances.map((substance) => {
-        const isSelected = answers[currentQuestion]?.includes(substance);
-        return (
-          <div 
-            key={substance}
-            className={`flex flex-col space-y-3 p-4 rounded-lg border transition-all duration-300 cursor-pointer
-              ${isSelected 
-                ? 'bg-purple-600/30 border-purple-500' 
-                : 'bg-black/40 border-purple-500/30 hover:bg-purple-900/20'
-              }`}
-            onClick={() => handleAnswer(substance)}
-          >
-            <div className="flex justify-between items-center">
-              <div className="flex items-center w-full">
-                <span className={`text-purple-300 flex-grow ${isSelected ? 'font-bold' : ''}`}>
-                  {substance}
-                </span>
-                
-                {isSelected && (
-                  <div className="flex items-center gap-3">
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation(); 
-                        handleCounter(substance, false);
-                      }}
-                      className="p-1 rounded-full hover:bg-purple-700/50 text-purple-400"
-                    >
-                      <Minus className="w-4 h-4" />
-                    </button>
-                    <span className="min-w-[2.5rem] text-center text-purple-300">
-                      {(counters[substance] || 0)}x
-                    </span>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation(); 
-                        handleCounter(substance, true);
-                      }}
-                      className="p-1 rounded-full hover:bg-purple-700/50 text-purple-400"
-                    >
-                      <Plus className="w-4 h-4" />
-                    </button>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-
   if (isComplete) {
     return (
       <div className="min-h-screen bg-gradient-to-b from-black via-purple-950 to-black p-4 flex flex-col items-center justify-center mb-10">
@@ -636,23 +517,13 @@ const OnboardingScreen = () => {
           <p className="text-purple-300">
             Thank you for sharing your experiences. You're now ready to start journaling.
           </p>
-          <button
-            onClick={() => setIsComplete(false)}
-            className="mt-8 px-8 py-3 rounded-lg text-white font-medium bg-purple-600 hover:bg-purple-700 transition-all"
-          >
-            Back to Questions
-          </button>
         </div>
       </div>
     );
   }
 
   return (
-    <div 
-      className="min-h-screen bg-gradient-to-b from-black via-purple-950 to-black p-4 pb-24 flex flex-col items-center"
-      onKeyDown={handleKeyDown}
-      tabIndex={0}
-    >
+    <div className="min-h-screen bg-gradient-to-b from-black via-purple-950 to-black p-4 pb-24 flex flex-col items-center">
       <NavigationBar />
       <div className="w-full max-w-md flex items-center gap-2 mb-6">
         <Sparkles className="w-5 h-5 text-purple-400" />
@@ -679,9 +550,13 @@ const OnboardingScreen = () => {
           <h2 className="text-xl font-semibold mb-6 text-center bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
             {questions[currentQuestion].question}
           </h2>
-          
-          {questions[currentQuestion].showCounters ? (
-            <QuestionThree />
+          {questions[currentQuestion].type === "text" ? (
+            <textarea
+              className="w-full p-4 bg-black/20 rounded-lg text-purple-300 border border-purple-500/30"
+              rows={5}
+              value={answers[currentQuestion] || ""}
+              onChange={(e) => handleAnswer(e.target.value)}
+            />
           ) : (
             <div className="space-y-3">
               {questions[currentQuestion].options.map((option, index) => {
@@ -730,32 +605,16 @@ const OnboardingScreen = () => {
         </button>
       </div>
 
-      <div className="flex gap-2 mt-6">
-        {questions.map((_, index) => (
-          <div
-            key={index}
-            className={`w-2 h-2 rounded-full transition-all duration-300
-              ${index === currentQuestion 
-                ? 'bg-purple-400 w-4' 
-                : index < currentQuestion 
-                  ? 'bg-purple-600' 
-                  : 'bg-purple-900/40'
-              }`}
-          />
-        ))}
-      </div>
-
-      <button
-        onClick={handleContinue}
-        disabled={!allQuestionsAnswered}
-        className={`mt-8 px-8 py-3 rounded-lg text-white font-medium transition-all duration-300
-          ${allQuestionsAnswered 
-            ? 'bg-purple-600 hover:bg-purple-700 opacity-100 transform translate-y-0' 
-            : 'bg-purple-600/50 opacity-0 transform translate-y-4 cursor-not-allowed'
-          }`}
-      >
-        Complete Onboarding
-      </button>
+      {allQuestionsAnswered && (
+        <div className="w-full max-w-md mt-6">
+          <button
+            onClick={handleContinue}
+            className="flex items-center bg-gradient-to-r from-purple-600 to-purple-400 text-black font-semibold text-lg px-4 py-2 rounded-lg w-full justify-center hover:from-purple-700 hover:to-purple-500"
+          >
+            Finish
+          </button>
+        </div>
+      )}
     </div>
   );
 };

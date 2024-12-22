@@ -37,7 +37,7 @@ const PostExperience = () => {
   };
 
   const handleClosePostExperiencePopup = () => {
-    navigate("/");
+    navigate('/journalScreen');
     setShowPostExperiencePopup(false);
   };
 
@@ -76,7 +76,7 @@ const PostExperience = () => {
 
       if (response.ok) {
         console.log("Journal entry saved successfully:", data);
-        navigate("/"); // Navigate after successful save
+        navigate("/journalScreen"); // Navigate after successful save
       } else {
         alert(data?.message || "An error occurred. Please try again.");
       }

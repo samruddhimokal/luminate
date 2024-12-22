@@ -1,20 +1,73 @@
 
 
 
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { useAuth } from "./UserContext"; // Adjust the path
 import OnboardingScreen from "./OnboardingScreen";
 import JournalScreen from "./journal-screen-updated";
 import { useNavigate } from "react-router-dom";
+
+
+const PrefaceScreen = ({ onComplete }) => {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsVisible(false);
+      onComplete?.();
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [onComplete]);
+
+  if (!isVisible) return null;
+
+  return (
+    <div className="fixed inset-0 z-[9999] bg-gradient-to-b from-purple-900 to-purple-700 flex items-center justify-center px-4">
+      <div className="max-w-xl text-center animate-fade-in">
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-6">
+          Welcome to Luminate
+        </h1>
+        <p className="text-purple-100 text-lg leading-relaxed">
+          This app includes reflective exercises and best practices of plant medicine experiences, 
+          helping you optimize or improve the feelings and life changes you get as a result of these experiences.
+        </p>
+        <p className="text-purple-100 text-lg mt-4 leading-relaxed">
+          By answering these few questions, it will help you maximize your plant medicine experience.
+        </p>
+      </div>
+    </div>
+  );
+};
+
 const AuthForms = () => {
   const API_URL = process.env.REACT_APP_BASE_URL;
+
+
     
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({ username: "", email: "", password: "" });
   const [message, setMessage] = useState({ text: "", type: "" });
   const [isLoading, setIsLoading] = useState(false);
   const { authData, login ,logout} = useAuth(); // Access auth context
+  const [showPreface, setShowPreface] = useState(false);
   const navigate = useNavigate();
+
+
+
+
+  useEffect(() => {
+    if (authData.isAuthenticated) {
+      setShowPreface(true);
+    }
+  }, [authData.isAuthenticated]);
+
+ 
+
+
+
+
+
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const toggleForm = () => {
@@ -23,44 +76,8 @@ const AuthForms = () => {
     setFormData({ username: "", email: "", password: "" });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
+ 
 
-  //   const url = isLogin
-  //     ? `${API_URL}/auth/login`
-  //     : `${API_URL}/auth/register`;
-
-  //   const payload = {
-  //     email: formData.email,
-  //     password: formData.password,
-  //     ...(isLogin ? {} : { name: formData.username }), // Add name for registration
-  //   };
-
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: "POST",
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(payload),
-  //     });
-
-  //     const data = await response.json();
-    
-  //     if (response.ok) {
-  //       login(data.user.email, data.token); // Update auth context
-  //       setMessage({ text: "Authentication successful!", type: "success" });
-  //     } else {
-  //       console.log("message",data.message)
-  //       setMessage({ text: data.message || "Authentication failed.", type: "error" });
-  //     }
-  //   } catch (error) {
-  //     setMessage({ text: "Network error, please try again.", type: "error" });
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
-  // const { authData, login,  } = useAuth(); // Include logout from context
 
 const handleSubmit = async (e) => {
   e.preventDefault();
@@ -108,12 +125,27 @@ const handleSubmit = async (e) => {
   }
 };
 
-  // Redirect to onboarding screen if authenticated
+
+const handlePrefaceComplete = () => {
+  setShowPreface(false);
   if (authData.isAuthenticated && isLogin) {
-    return <JournalScreen />;
+    
+    navigate("/journalScreen");
   } else if (authData.isAuthenticated && !isLogin) {
-    return <OnboardingScreen />;
+    navigate("/onbardingScreen");
   }
+};
+
+// If preface is showing, only render the preface screen
+if (showPreface) {
+  return <PrefaceScreen onComplete={handlePrefaceComplete} />;
+}
+
+
+
+
+  // Redirect to onboarding screen if authenticated
+ 
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black via-purple-950 to-black flex items-center justify-center p-4">

@@ -213,12 +213,7 @@ if (profileData?.journeysAll?.length > 0) {
           {profileData.user.name}
         </h3>
         <p className="text-gray-400">{profileData.user.email}</p>
-        {/* <button
-          onClick={handleLogout}
-          className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded flex items-center"
-        >
-          <LogOut className="mr-2" /> Logout
-        </button> */}
+       
          <div className="mt-4 flex space-x-4">
           <button
             onClick={handleHome}
@@ -268,74 +263,6 @@ if (profileData?.journeysAll?.length > 0) {
           ))
         )
       : null;
-
-  const renderSection1 = (title, content) => (
-    <div className="bg-gray-800 rounded-lg shadow-xl p-6 mb-8">
-      <h2 className="text-2xl font-bold text-purple-400 mb-4">{title}</h2>
-      {content?.length > 0 ? (
-        content.map((item, index) => (
-          <div key={index} className="mb-4">
-            {item}
-          </div>
-        ))
-      ) : (
-        <p className="text-gray-400">
-          {title === "Journeys"
-            ? "No journeys available at the moment."
-            : "No data available"}
-        </p>
-      )}
-    </div>
-  );
-
-
-  console.log(journeyData)
-
-  // const renderJourneys = () => {
-  //   // First priority: journeyData from the specific selected journey
-
-  //   console.log("journey data",journeyData.levels)
-  //   console.log("profiledata",profileData?.journeys?.levels)
-  //   if (journeyData?.levels?.length > 0) {
-  //     return renderSection(
-  //       console.log("in journedy data"),
-  //       "Journeys",
-  //       journeyData.levels.map((level, idx) => (
-  //         <div key={idx} className="text-gray-300 space-y-2">
-  //           <h3 className="text-purple-300 font-semibold">{level.title}</h3>
-  //           {level?.questionAnswers?.map((qa, i) => (
-  //             <p key={i} className="space-y-1">
-  //               <strong>Q:</strong> {qa.question} <br />
-  //               <strong>A:</strong> {qa.answer}
-  //             </p>
-  //           ))}
-  //         </div>
-  //       ))
-  //     );
-  //   } 
-  //   // When journeyData is null after searching a specific date
-  //   else if (journeyData === null && profileData?.journeys?.levels?.length > 0) {
-  //     return renderSection(
-  //       console.log("in prodile data"),
-  //       "Journeys",
-  //       profileData.journeys.levels.map((level, idx) => (
-  //         <div key={idx} className="text-gray-300 space-y-2">
-  //           <h3 className="text-purple-300 font-semibold">{level.title}</h3>
-  //           {level?.questionAnswers?.map((qa, i) => (
-  //             <p key={i} className="space-y-1">
-  //               <strong>Q:</strong> {qa.question} <br />
-  //               <strong>A:</strong> {qa.answer}
-  //             </p>
-  //           ))}
-  //         </div>
-  //       ))
-  //     );
-  //   } 
-  //   // Fallback: empty state when no journeys exist
-  //   else {
-  //     return renderSection("Journeys", []);
-  //   }
-  // };
 
 
   const renderJourneys = () => {
@@ -405,20 +332,6 @@ if (profileData?.journeysAll?.length > 0) {
           </div>,
         ]);
 
-  // const renderPostExperiences = () =>
-  //   postData
-  //     ? renderSection("Post Experiences", [
-  //         postData.map((item) => (
-  //           <p className="text-gray-300 space-y-1" key={item._id}>
-  //             {item.postExperience}
-  //           </p>
-  //         )),
-  //       ])
-  //     : renderSection("Post Experiences", [
-  //         <p className="text-gray-300 space-y-1" key="postExp">
-  //           {profileData.postExperiences.postExperience}
-  //         </p>,
-  //       ]);
 
 
   const renderPostExperiences = () => {

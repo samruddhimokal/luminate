@@ -325,10 +325,10 @@ const BottomButton = () => {
   const navigationButtons = [
     {
       label: 'Home',
-      path: '/',
+      path: '/journalScreen',
       onClick: () => {
         if (isAuthenticated) {
-          navigate('/');
+          navigate('/journalScreen');
         }
       }
     },
